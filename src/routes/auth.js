@@ -14,5 +14,8 @@ router.post('/login', authController.login);
 // protected route
 router.get('/profile', authenticateToken,  authController.profile);
 
+router.get('/api/users/:id', authenticateToken,  authController.profile);
+
+
 
 module.exports = router;

@@ -5,6 +5,8 @@ const app = express();
 const bodyParser = require('body-parser');
 const organisationRoutes = require('./routes/organisation');
 const authRoutes = require('./routes/auth');
+const userRoutes = require('./routes/user');
+
 
 
 // Middleware
@@ -12,6 +14,7 @@ app.use(bodyParser.json());
 
 // Use the organisation routes
 app.use('/api/organisations', organisationRoutes);
+app.use(userRoutes);
 
 // Use the auth routes
 app.use('/auth', authRoutes);

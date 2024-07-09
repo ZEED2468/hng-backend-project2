@@ -4,6 +4,6 @@ const userController = require('../controllers/userController');
 const authenticateToken = require('../middleware/authMiddleware');
 
 // User routes
-router.get('/:id', authenticateToken, userController.getUserById);
+router.get('/api/users/:id', authenticateToken, userController.getUserById);
 
 module.exports = router;
