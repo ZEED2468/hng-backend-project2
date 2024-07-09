@@ -4,22 +4,28 @@ const { v4: uuidv4 } = require('uuid');
 // Get all organisations handler
 exports.getOrganisations = async (req, res) => {
     try {
-        // Fetch organisations associated with the logged-in user
-
-        const organisations = await Organisation.findAll({
-            include: [{
-                model: User,
-                as: 'users',
-                where: { userId: req.user.userId },
-                attributes: [], // No need to fetch user attributes
-            }],
-            attributes: ['orgId', 'name', 'description'],
+        const user = await User.findByPk(req.user.userId, {
+            include: {
+                model: Organisation,
+                as: 'organisations',
+                attributes: ['orgId', 'name', 'description'],
+            },
         });
 
-        res.status(200).json({  
+        if (!user) {
+            return res.status(404).json({ status: 'Not found', message: 'User not found', statusCode: 404 });
+        }
+
+        res.status(200).json({
             status: 'success',
             message: 'Organisations retrieved successfully',
-            data: { organisations },
+            data: {
+                organisations: user.organisations.map(org => ({
+                    orgId: org.orgId,
+                    name: org.name,
+                    description: org.description,
+                })),
+            },
         });
     } catch (error) {
         console.error('Error fetching organisations:', error);

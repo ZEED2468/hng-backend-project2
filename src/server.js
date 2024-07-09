@@ -13,7 +13,7 @@ const userRoutes = require('./routes/user');
 app.use(bodyParser.json());
 
 // Use the organisation routes
-app.use('/api/organisations', organisationRoutes);
+app.use(organisationRoutes);
 app.use(userRoutes);
 
 // Use the auth routes
