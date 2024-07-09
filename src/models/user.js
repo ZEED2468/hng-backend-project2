@@ -1,8 +1,9 @@
-const { DataTypes } = require('sequelize');
+const {Model, DataTypes } = require('sequelize');
 const sequelize = require('../config');
 
-// User model definition
-const User = sequelize.define('User', {
+class User extends Model {}
+
+User.init({
     userId: {
         type: DataTypes.STRING,
         primaryKey: true,
@@ -27,8 +28,11 @@ const User = sequelize.define('User', {
     },
     phone: {
         type: DataTypes.STRING,
-    },
-});
+    }, 
+ }, {
+        sequelize,
+        modelName: 'User',
+    });
 
 
 

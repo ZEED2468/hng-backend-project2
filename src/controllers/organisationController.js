@@ -46,13 +46,19 @@ exports.getOrganisationById = async (req, res) => {
 
         res.status(200).json({
             status: 'success',
-            data: { organisation },
+            message: 'Organisation retrieved successfully',
+            data: {
+                orgId: organisation.orgId,
+                name: organisation.name,
+                description: organisation.description,
+            },
         });
     } catch (error) {
         console.error('Error fetching organisation:', error);
-        res.status(400).json({ status: 'Bad request', message: 'Failed to fetch organisation', statusCode: 400 });
+        res.status(500).json({ status: 'error', message: 'Internal Server Error' });
     }
 };
+
 
 // Create organisation handler
 exports.createOrganisation = async (req, res) => {
@@ -89,12 +95,18 @@ exports.createOrganisation = async (req, res) => {
 // Add user to organisation handler
 exports.addUserToOrganisation = async (req, res) => {
     try {
+        const { orgId } = req.params;
         const { userId } = req.body;
-        const user = await User.findByPk(userId);
-        if (!user) return res.status(404).json({ status: 'Not Found', message: 'User not found', statusCode: 404 });
 
-        const organisation = await Organisation.findByPk(req.params.orgId);
-        if (!organisation) return res.status(404).json({ status: 'Not Found', message: 'Organisation not found', statusCode: 404 });
+        const organisation = await Organisation.findByPk(orgId);
+        if (!organisation) {
+            return res.status(404).json({ status: 'Not found', message: 'Organisation not found', statusCode: 404 });
+        }
+
+        const user = await User.findByPk(userId);
+        if (!user) {
+            return res.status(404).json({ status: 'Not found', message: 'User not found', statusCode: 404 });
+        }
 
         await organisation.addUser(user);
 
@@ -103,6 +115,7 @@ exports.addUserToOrganisation = async (req, res) => {
             message: 'User added to organisation successfully',
         });
     } catch (error) {
-        res.status(400).json({ status: 'Bad request', message: 'Client error', statusCode: 400 });
+        console.error('Error adding user to organisation:', error);
+        res.status(400).json({ status: 'Bad request', message: 'Failed to add user to organisation', statusCode: 400 });
     }
-};
+}
