@@ -29,7 +29,9 @@ exports.register = async (req, res) => {
             return res.status(422).json({ errors });
         }
 
+        console.log(`Plain text password (registration): ${password}`);
         const hashedPassword = await bcrypt.hash(password, 10);
+        console.log(`Hashed password (registration): ${hashedPassword}`);
         const userId = uuidv4();
 
         // Check if email already exists
@@ -89,22 +91,28 @@ exports.register = async (req, res) => {
 };
 
 
-// User login handler
+
 exports.login = async (req, res) => {
     try {
         const { email, password } = req.body;
+        console.log(`Attempting to log in user with email: ${email}`);
+        console.log(`Plain text password (login): ${password}`);
 
         const user = await User.findOne({ where: { email } });
         if (!user) {
+            console.log(`User not found with email: ${email}`);
             return res.status(401).json({ status: 'Bad request', message: 'Authentication failed', statusCode: 401 });
         }
 
         const validPassword = await bcrypt.compare(password, user.password);
+        console.log(`Password comparison result: ${validPassword}`);
         if (!validPassword) {
+            console.log(`Invalid password for user with email: ${email}`);
             return res.status(401).json({ status: 'Bad request', message: 'Authentication failed', statusCode: 401 });
         }
 
         const token = jwt.sign({ userId: user.userId }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        console.log(`Generated token for user with email: ${email}`);
 
         res.status(200).json({
             status: 'success',
@@ -125,6 +133,9 @@ exports.login = async (req, res) => {
         res.status(400).json({ status: 'Bad request', message: 'Authentication failed', statusCode: 400 });
     }
 };
+
+
+
 
 // Protected route to get user profile
 exports.profile = async (req, res) => {
