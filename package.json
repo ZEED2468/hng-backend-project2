@@ -2,8 +2,12 @@
   "name": "hng-backend-project2",
   "version": "1.0.0",
   "description": "HNG BACKEND STAGE TWO TASK",
-  "main": "index.js",
+  "main": "server.js",
+  "engines": {
+    "node": "20.15.0"
+  },
   "scripts": {
+    "start": "node src/server.js",
     "test": "jest"
   },
   "jest": {
