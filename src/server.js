@@ -8,6 +8,9 @@ const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
 const sequelize = require('./config'); // Import the sequelize instance
 
+
+console.log('Starting the server...');
+
 app.get('/', (req, res) => {
   res.send('Hello World');
 })
@@ -34,3 +37,13 @@ sequelize.sync() // Sync without force
   .catch(error => {
     console.error('Error creating database & tables:', error);
   });
+
+  module.exports = (req, res) => {
+    try {
+      const name = req.query.name || 'World';
+      res.status(200).json({ message: `Hello, ${name}!` });
+    } catch (error) {
+      console.error('Error occurred:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  };
