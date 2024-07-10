@@ -3,15 +3,11 @@
   "version": "1.0.0",
   "description": "HNG BACKEND STAGE TWO TASK",
   "main": "server.js",
-  "engines": {
-    "node": "20.x"
-  },
+  
   "scripts": {
     "start": "node src/server.js",
-    "test": "jest",
-    "install": "npm install",
-    "postinstall": "npm install pg"
-  },
+    "test": "jest"
+    },
   "jest": {
     "testEnvironment": "node"
   },

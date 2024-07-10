@@ -3,7 +3,6 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const { execSync } = require('child_process');
 const organisationRoutes = require('./routes/organisation');
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
@@ -11,14 +10,6 @@ const sequelize = require('./config'); // Import the sequelize instance
 
 
 console.log('Starting the server...');
-
-try {
-  execSync('npm install pg');
-  console.log('pg package installed successfully.');
-} catch (error) {
-  console.error('Error installing pg package:', error);
-  process.exit(1);
-}
 
 app.get('/', (req, res) => {
   res.send('Hello World');
@@ -36,16 +27,11 @@ app.use('/auth', authRoutes);
 // Start the server
 const PORT = process.env.PORT || 3000;
 
-sequelize.sync() // Sync without force
-  .then(() => {
-    console.log('Database & tables created!');
+
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);
     });
-  })
-  .catch(error => {
-    console.error('Error creating database & tables:', error);
-  });
+
 
   module.exports = (req, res) => {
     try {
