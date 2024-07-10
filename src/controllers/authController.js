@@ -40,7 +40,7 @@ exports.register = async (req, res) => {
             return res.status(400).json({
                 status: "Bad request",
                 message: "Email already in use",
-                statusCode: 400
+                statusCode: 422
             });
         }
 
