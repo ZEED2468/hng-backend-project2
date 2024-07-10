@@ -8,8 +8,9 @@ const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
 const sequelize = require('./config'); // Import the sequelize instance
 
-
-
+app.get('/', (req, res) => {
+  res.send('Hello World');
+})
 // Middleware
 app.use(bodyParser.json());
 
