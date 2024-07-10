@@ -9,6 +9,7 @@
   "scripts": {
     "start": "node src/server.js",
     "test": "jest",
+    "install": "npm install",
     "postinstall": "npm install pg"
   },
   "jest": {
