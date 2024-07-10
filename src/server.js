@@ -21,14 +21,6 @@ app.use(userRoutes);
 // Use the auth routes
 app.use('/auth', authRoutes);
 
-// Other routes and middleware...
-
-// Global error handling middleware
-app.use((err, req, res, next) => {
-    console.error('Unhandled error:', err);
-    res.status(500).json({ status: 'error', message: 'Internal Server Error', error: err.message });
-});
-
 // Start the server
 const PORT = process.env.PORT || 3000;
 

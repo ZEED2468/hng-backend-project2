@@ -4,6 +4,7 @@ require('dotenv').config();
 
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
   dialect: 'postgres',
+  protocol: 'postgres',
   logging: false, // Disable logging SQL queries to the console
   pool: {
     max: 10, // Maximum number of connections in the pool
