@@ -3,6 +3,7 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+const { execSync } = require('child_process');
 const organisationRoutes = require('./routes/organisation');
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
@@ -10,6 +11,14 @@ const sequelize = require('./config'); // Import the sequelize instance
 
 
 console.log('Starting the server...');
+
+try {
+  execSync('npm install pg');
+  console.log('pg package installed successfully.');
+} catch (error) {
+  console.error('Error installing pg package:', error);
+  process.exit(1);
+}
 
 app.get('/', (req, res) => {
   res.send('Hello World');
@@ -47,3 +56,4 @@ sequelize.sync() // Sync without force
       res.status(500).json({ error: 'Internal Server Error' });
     }
   };
+
