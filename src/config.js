@@ -1,13 +1,12 @@
 const { Sequelize } = require('sequelize');
 require('pg');
 require('dotenv').config();
-const ssl = process.env.NODE_ENV === 'production';
 
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
   dialect: 'postgres',
   protocol: 'postgres',
   dialectOptions: {
-    ssl: ssl ? { require: true, rejectUnauthorized: false } : false,
+    ssl: { require: true, rejectUnauthorized: false }
   },
   logging: false, // Disable logging SQL queries to the console
   pool: {
