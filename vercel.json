@@ -8,5 +8,11 @@
   ],
   "routes": [
     { "src": "/(.*)", "dest": "/src/server.js" }
-  ]
+  ],
+  "env": {
+    "DATABASE_URL": "postgres://zeed:Sunkey32@localhost:5432/myhngdatabase",
+    "JWT_SECRET" : "gIYSJm0oyqglCrLQjkumrzT5QiiR23o1",
+    "PORT" :"3000"
 }
+}
+
