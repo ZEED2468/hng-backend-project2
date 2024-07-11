@@ -1,19 +1,20 @@
-// app.js or server.js
-
+require('dotenv').config(); // Ensure this is at the top to load environment variables
 const express = require('express');
-const app = express();
 const bodyParser = require('body-parser');
+const sequelize = require('./config'); // Import the sequelize instance
+
 const organisationRoutes = require('./routes/organisation');
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
-const sequelize = require('./config'); // Import the sequelize instance
 
+const app = express();
 
 console.log('Starting the server...');
 
 app.get('/', (req, res) => {
   res.send('Hello World');
-})
+});
+
 // Middleware
 app.use(bodyParser.json());
 
@@ -27,19 +28,18 @@ app.use('/auth', authRoutes);
 // Start the server
 const PORT = process.env.PORT || 3000;
 
-
+sequelize.authenticate()
+  .then(() => {
+    console.log('Connection has been established successfully.');
+    return sequelize.sync();
+  })
+  .then(() => {
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);
     });
+  })
+  .catch(err => {
+    console.error('Unable to connect to the database:', err);
+  });
 
-
-  module.exports = (req, res) => {
-    try {
-      const name = req.query.name || 'World';
-      res.status(200).json({ message: `Hello, ${name}!` });
-    } catch (error) {
-      console.error('Error occurred:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
-    }
-  };
-
+module.exports = app;
