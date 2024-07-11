@@ -1,10 +1,16 @@
 const { Sequelize } = require('sequelize');
-require('pg'); // Explicitly require the pg package
+require('pg');
 require('dotenv').config();
 
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
   dialect: 'postgres',
   protocol: 'postgres',
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false,
+    },
+  },
   logging: false, // Disable logging SQL queries to the console
   pool: {
     max: 10, // Maximum number of connections in the pool
@@ -17,4 +23,3 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
 });
 
 module.exports = sequelize;
-
